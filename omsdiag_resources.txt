@@ -1,0 +1,7 @@
+#Files 
+/mnt/c/code/Mgmt-Automation-LinuxUpdate/file.txt
+
+
+#Commands
+
+ls -l /
