@@ -88,7 +88,7 @@ class Report(object):
     
     def add_message(self, paragraph):
         row= """<tr>
-                    <td>{0}</td> td>{1}</td>
+                    <td>{0}</td> <td>{1}</td>
                 </tr>"""
         self.message= self.message + row.format('cmd',paragraph)   
 
@@ -102,26 +102,34 @@ class Report(object):
             <head>
             <title>OMS Linux Agent Diagnostic Report</title>
             <style>
-            table {
-                font-family: arial, sans-serif;
-                border-collapse: collapse;
-                width: 100%;
-            }
+                table {
+                    font-family: arial, sans-serif;
+                    border-collapse: collapse;
+                    width: 100%;
 
-            td, th {
-                border: 1px solid #dddddd;
-                text-align: left;
-                padding: 8px;
-            }
+                }
 
-            tr:nth-child(even) {
-                background-color: #dddddd;
-            }
-            </style>
+                td, th {
+                    border: 2px solid black;
+                    text-align: left;
+                    padding: 8px;
+                }
+
+                th {
+                background-color: azure;
+                }
+
+
+                tr:nth-child(even) {
+                    background-color: #dddddd;
+                }
+
+                header {background-color: skyblue}
+                </style>
             </head>
             <body>
             <header role="banner"> <center> <h1> OMS Linux Agent Diagnostic Report </h1></center></header>
-            <hr/>
+            
             <br/>
             <table style="width:90%" align="center">
             <tr>
