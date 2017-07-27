@@ -101,7 +101,6 @@ class Report(object):
             <html>
             <head>
             <title>OMS Linux Agent Diagnostic Report</title>
-
             <style>
             table {
                 font-family: arial, sans-serif;
@@ -129,12 +128,15 @@ class Report(object):
                 <th width="20%">Description</th>
                 <th>Output</th> 
 
-            </tr>
-            {0}
-            </table>
+            </tr>""" 
+        message_html= message_html+ self.message
+            
+            #{0}
+        message_html= message_html +    """</table>
             </body>
             </html>
-            """.format(self.message)
+            """
+            #.format(self.message)
         self.report.write(message_html)
         self.report.close()
 
