@@ -4,4 +4,4 @@
 
 #Commands
 
-ls -l /
+OMS Agent Version ; cat /etc/opt/microsoft/omsagent/sysconf/installinfo.txt

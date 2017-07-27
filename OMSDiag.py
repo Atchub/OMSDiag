@@ -56,9 +56,10 @@ class Diagnose(object):
                     continue
                 if line and  not line.startswith('#'):
                     if  cmds:
-                        self.log_files.append(line)
-                    else:
                         self.cmd_list.append(line)
+                    else:
+                        self.log_files.append(line)
+                        
         print(self.cmd_list)
         print(self.log_files)
     
@@ -86,11 +87,11 @@ class Report(object):
         self.message=''
         
     
-    def add_message(self, paragraph):
+    def add_message(self,desciption, paragraph):
         row= """<tr>
                     <td>{0}</td> <td>{1}</td>
                 </tr>"""
-        self.message= self.message + row.format('cmd',paragraph)   
+        self.message= self.message + row.format(desciption, paragraph)   
 
     def write_report(self):
         #message_html = """<html>
@@ -151,19 +152,25 @@ class Report(object):
 def main(argv):
    # files_to_collect=['/mnt/c/code/Mgmt-Automation-LinuxUpdate/file.txt,/mnt/c/code/Mgmt-Automation-LinuxUpdate/owners1.txt']
    # cmd_list = ['ls -l /opt/microsoft/omsconfig/modules/nxOMSPlugin/DSCResources/MSFT_nxOMSPluginResource/Plugins']
-    
+
+   #oms agent version: /etc/opt/microsoft/omsagent/sysconf/installinfo.txt
+   #oms admin info sudo nano /etc/opt/microsoft/omsagent/conf/omsadmin.conf
+
     files_to_collect=[]
     cmd_list = []
     
-
-    diag=Diagnose(files_to_collect, cmd_list, 'omsdiag.zip', 'out.txt')
-
-    output=diag.run_command("dir")
-    diag.read_omsdiag_resources()
     report= Report('oms_update.html')
-    report.add_message(str(output))
+    diag=Diagnose(files_to_collect, cmd_list, 'omsdiag.zip', 'out.txt')
+    diag.read_omsdiag_resources()
+    for cmd in diag.cmd_list:
+           cmd_split=cmd.split(';')
+           print(cmd_split[0])
+           print(cmd_split[1])
+           output=diag.run_command(cmd_split[1])
+           report.add_message(cmd_split[0], str(output))
+          
     report.write_report()
-    #diag.collect_files()
+    diag.collect_files()
 
 
 if __name__ == "__main__":
