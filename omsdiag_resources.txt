@@ -9,13 +9,13 @@
 #Commands
 
 OMS Agent Version ; cat /etc/opt/microsoft/omsagent/sysconf/installinfo.txt
-Workspace Id;  awk -F "=" '/WORKSPACE_ID/{print $2}' /etc/opt/microsoft/omsagent/conf/omsadmin.conf
-Agent Id; awk -F "=" '/AGENT_GUID/{print $2}' /etc/opt/microsoft/omsagent/conf/omsadmin.conf
-Azure Resource Id; awk -F "=" '/AZURE_RESOURCE_ID/{print $2}' /etc/opt/microsoft/omsagent/conf/omsadmin.conf
-Dsc  Endpoint; awk -F "=" '/DSC_ENDPOINT/{print $2}' /etc/opt/microsoft/omsagent/conf/omsadmin.conf
-Hybrid worker Id; awk -F "=" '/account_id/{print $2}' /var/opt/microsoft/omsagent/state/automationworker/worker.conf
-Automation Account Id;  awk -F "=" '/hybrid_worker_group_name/{print $2}' /var/opt/microsoft/omsagent/state/automationworker/worker.conf
-Hybrid worker Machine Id;  awk -F "=" '/machine_id/{print $2}' /var/opt/microsoft/omsagent/state/automationworker/worker.conf
-Hybrid Worker Log tail;tail -n 10 tail -n 10 /var/opt/microsoft/omsagent/run/automationworker/worker.log
+Workspace Id;  grep WORKSPACE_ID /etc/opt/microsoft/omsagent/conf/omsadmin.conf
+Agent Id; grep AGENT_GUID /etc/opt/microsoft/omsagent/conf/omsadmin.conf
+Azure Resource Id; grep AZURE_RESOURCE_ID /etc/opt/microsoft/omsagent/conf/omsadmin.conf
+Dsc  Endpoint; grep DSC_ENDPOINT /etc/opt/microsoft/omsagent/conf/omsadmin.conf
+Hybrid worker Id; grep account_id /var/opt/microsoft/omsagent/state/automationworker/worker.conf
+Automation Account Id;  grep hybrid_worker_group_name /var/opt/microsoft/omsagent/state/automationworker/worker.conf
+Hybrid worker Machine Id; grep machine_id /var/opt/microsoft/omsagent/state/automationworker/worker.conf
+Hybrid Worker Log tail;tail -n 10 /var/opt/microsoft/omsagent/run/automationworker/worker.log
 OMS config Log tail; tail -n 10 /var/opt/microsoft/omsconfig/omsconfig.log
 OMS agent Log tail; tail -n 10 /var/opt/microsoft/omsagent/log/omsagent.log

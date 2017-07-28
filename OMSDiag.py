@@ -2,6 +2,7 @@ import os
 import sys
 import zipfile
 import subprocess
+import io
 
 class Zipper(object):
     """"Diagnose OMS client system"""
@@ -28,7 +29,8 @@ class Diagnose(object):
         self.cmd_output_file= cmd_output_file
 
     def collect_files(self):
-        file_list= self.log_files.strip().split(",")
+        #file_list= self.log_files.strip().split(",")
+        file_list=self.log_files
         collect = Zipper(self.zip_file_name)
 
         for file in file_list:
@@ -45,7 +47,7 @@ class Diagnose(object):
                 line = line.strip()
 
     def read_omsdiag_resources(self):
-        with open("omsdiag_resources.txt") as file:
+        with io.open("omsdiag_resources.txt", encoding='utf-8') as file:
             cmds=False
             for line in file:
                 line = line.strip()
@@ -67,7 +69,7 @@ class Diagnose(object):
         proc = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, error = proc.communicate()
         return_code = proc.poll()
-
+        print("output: " + output)
         #output = proc.stdout.read()
         if (return_code is not None) and (return_code != 0):
             # return code is generally 1 if it failed
@@ -162,6 +164,8 @@ def main(argv):
     report= Report('oms_update.html')
     diag=Diagnose(files_to_collect, cmd_list, 'omsdiag.zip', 'out.txt')
     diag.read_omsdiag_resources()
+    #diag.cmd_list=[r"""Workspace Id;awk -F "=" '/WORKSPACE_ID/{print $2}' /etc/opt/microsoft/omsagent/conf/omsadmin.conf'"""]
+
     for cmd in diag.cmd_list:
            cmd_split=cmd.split(';')
            print(cmd_split[0])
