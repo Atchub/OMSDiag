@@ -62,14 +62,14 @@ class Diagnose(object):
                     else:
                         self.log_files.append(line)
                         
-        print(self.cmd_list)
-        print(self.log_files)
+        #print(self.cmd_list)
+        #print(self.log_files)
     
     def run_command(self, cmd):
         proc = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, error = proc.communicate()
         return_code = proc.poll()
-        print("output: " + output)
+        # print("output: " + str(output))
         #output = proc.stdout.read()
         if (return_code is not None) and (return_code != 0):
             # return code is generally 1 if it failed
@@ -149,6 +149,7 @@ class Report(object):
             """
             #.format(self.message)
         self.report.write(message_html)
+        print("\n\n OMS Diagnostic report generated: " +  "oms_update.html\n")
         self.report.close()
 
 def main(argv):
@@ -168,14 +169,17 @@ def main(argv):
 
     for cmd in diag.cmd_list:
            cmd_split=cmd.split(';')
-           print(cmd_split[0])
-           print(cmd_split[1])
+           #print(cmd_split[0])
+           #print(cmd_split[1])
            output=diag.run_command(cmd_split[1])
            report.add_message(cmd_split[0], str(output))
           
     report.write_report()
-    diag.collect_files()
 
+   
+    print("\nZipping files mentioned in the resources file\n")
+    diag.collect_files()
+    print("\nomsdiag.zip generated in the current folder\n")
 
 if __name__ == "__main__":
     main(sys.argv)
